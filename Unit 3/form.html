@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Contact Form</title>
+
+<style>
+    body,p,h2,input,button,textarea {
+  	margin: 0;
+ 	padding: 0;
+ 	list-style: none;
+  	text-decoration: none;
+ 	box-sizing: border-box;
+  	outline: none;
+  	font-weight: normal;
+  	line-height: 1.5;
+  
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 700px;
+        margin: auto;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding-block: 8px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+    }
+
+    .radio-group {
+        margin-bottom: 15px;
+    }
+
+    .radio-group input {
+        width: auto;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    #previewArea {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        background-color: #eef;
+        display: none;
+    }
+
+    .error {
+        color: red;
+        font-size: 14px;
+    }
+</style>
+
+<script>
+
+    // Function validates user input before form submission
+    function validateForm() {
+
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+        let message = document.getElementById("message").value.trim();
+
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        let phonePattern = /^\d{10}$/;
+
+        let errorMessage = "";
+
+        // Check that all text fields contain data
+        if (name === "" || email === "" || phone === "" || message === "") {
+            errorMessage += "All fields must be completed.<br>";
+        }
+
+        // Check email format
+        if (!emailPattern.test(email)) {
+            errorMessage += "Please enter a valid email address.<br>";
+        }
+
+        // Check phone number format
+        if (!phonePattern.test(phone)) {
+            errorMessage += "Phone number must contain exactly 10 digits.<br>";
+        }
+
+        document.getElementById("errors").innerHTML = errorMessage;
+
+        if (errorMessage !== "") {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Function displays entered data as a preview
+    function previewData() {
+
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let phone = document.getElementById("phone").value;
+        let message = document.getElementById("message").value;
+
+        let contactMethod =
+            document.querySelector('input[name="contactMethod"]:checked');
+
+        let inquiryType =
+            document.getElementById("inquiryType").value;
+
+        document.getElementById("previewArea").style.display = "block";
+
+        document.getElementById("previewArea").innerHTML =
+            "<h3>Preview Information (GET Method)</h3>" +
+            "<p><strong>Name:</strong> " + name + "</p>" +
+            "<p><strong>Email:</strong> " + email + "</p>" +
+            "<p><strong>Phone:</strong> " + phone + "</p>" +
+            "<p><strong>Message:</strong> " + message + "</p>" +
+            "<p><strong>Preferred Contact:</strong> " +
+            (contactMethod ? contactMethod.value : "") + "</p>" +
+            "<p><strong>Inquiry Type:</strong> " +
+            inquiryType + "</p>";
+    }
+
+</script>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Contact Us</h2>
+
+<div id="errors" class="error"></div>
+
+<!-- GET Form for Preview -->
+<form method="get">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="phone">Phone Number:</label>
+    <input type="text"
+           id="phone"
+           name="phone"
+           pattern="[0-9]{10}"
+           required>
+
+    <label for="message">Message:</label>
+    <textarea id="message"
+              name="message"
+              rows="5"
+              required></textarea>
+
+    <label>Preferred Contact Method:</label>
+
+    <div class="radio-group">
+        <input type="radio"
+               id="emailContact"
+               name="contactMethod"
+               value="Email"
+               required>
+        <label for="emailContact">Email</label>
+
+        <input type="radio"
+               id="phoneContact"
+               name="contactMethod"
+               value="Phone">
+        <label for="phoneContact">Phone</label>
+
+        <input type="radio"
+               id="bothContact"
+               name="contactMethod"
+               value="Both">
+        <label for="bothContact">Both</label>
+    </div>
+
+    <label for="inquiryType">Inquiry Type:</label>
+
+    <select id="inquiryType" name="inquiryType" required>
+        <option value="">Select an option</option>
+        <option value="General Inquiry">General Inquiry</option>
+        <option value="Support Request">Support Request</option>
+        <option value="Feedback">Feedback</option>
+    </select>
+
+    <button type="button" onclick="previewData()">
+        Preview (GET)
+    </button>
+
+</form>
+
+<!-- POST Form Submission -->
+<form method="post"
+      action="https://example.com/contact"
+      onsubmit="return validateForm();">
+
+    <button type="submit">
+        Submit (POST)
+    </button>
+
+</form>
+
+<div id="previewArea"></div>
+
+</div>
+
+</body>
+</html>
