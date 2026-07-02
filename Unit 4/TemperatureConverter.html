@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: darkblue;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+            font-weight: bold;
+        }
+
+        #error {
+            margin-top: 10px;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Temperature Converter</h2>
+
+    <!-- Input field for temperature -->
+    <input type="text" id="temperature" placeholder="Enter Temperature">
+
+    <!-- Dropdown menu -->
+    <select id="unit">
+        <option value="CtoF">Celsius to Fahrenheit</option>
+        <option value="FtoC">Fahrenheit to Celsius</option>
+    </select>
+
+    <!-- Convert button -->
+    <button id="convertBtn">Convert</button>
+
+    <!-- Display result -->
+    <p id="result"></p>
+
+    <!-- Display error message -->
+    <p id="error"></p>
+
+</div>
+
+<script>
+
+    // Event listener waits for the Convert button to be clicked.
+    document.getElementById("convertBtn").addEventListener("click", convertTemperature);
+
+    // Main function that validates input and performs conversion.
+    function convertTemperature() {
+
+        // Get user input.
+        let temperature = document.getElementById("temperature").value;
+
+        // Get selected conversion type.
+        let unit = document.getElementById("unit").value;
+
+        // Display areas.
+        let result = document.getElementById("result");
+        let error = document.getElementById("error");
+
+        // Clear previous messages.
+        result.innerHTML = "";
+        error.innerHTML = "";
+
+        // Validate that the input is numeric.
+        if (temperature === "" || isNaN(temperature)) {
+            error.innerHTML = "Please enter a valid numeric temperature.";
+            return;
+        }
+
+        // Convert text input into a number.
+        temperature = parseFloat(temperature);
+
+        // Perform the correct conversion.
+        if (unit === "CtoF") {
+
+            let fahrenheit = (temperature * 9 / 5) + 32;
+
+            result.innerHTML =
+                temperature + " °C = " + fahrenheit.toFixed(2) + " °F";
+
+        } else {
+
+            let celsius = (temperature - 32) * 5 / 9;
+
+            result.innerHTML =
+                temperature + " °F = " + celsius.toFixed(2) + " °C";
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
