@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hassani To Do List</title>
+
+<style>
+
+body{
+    background:#eef2f5;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.container{
+
+    width:600px;
+    margin:40px auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+
+}
+
+h2{
+
+    text-align:center;
+
+}
+
+.top{
+
+    display:flex;
+    gap:10px;
+
+}
+
+#taskInput{
+
+    flex:1;
+    padding:10px;
+    font-size:16px;
+
+}
+
+#addTask{
+
+    background:green;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    cursor:pointer;
+
+}
+
+ul{
+
+    list-style:none;
+    padding:0;
+    margin-top:20px;
+
+}
+
+li{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    margin-bottom:8px;
+    border-radius:6px;
+    background:#f8f8f8;
+
+}
+
+.taskText{
+
+    flex:1;
+
+}
+
+.done{
+
+    text-decoration:line-through;
+    color:gray;
+
+}
+
+button{
+
+    border:none;
+    cursor:pointer;
+    padding:7px 12px;
+    border-radius:4px;
+
+}
+
+.edit{
+
+    background:#0d6efd;
+    color:white;
+
+}
+
+.remove{
+
+    background:#dc3545;
+    color:white;
+
+}
+
+/* dialog */
+
+#editBox{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.5);
+
+}
+
+.dialog{
+
+width:350px;
+
+background:white;
+
+padding:20px;
+
+margin:180px auto;
+
+border-radius:8px;
+
+}
+
+.dialog input{
+
+width:94%;
+
+padding:10px;
+
+margin-top:10px;
+
+margin-bottom:15px;
+
+}
+
+.actions{
+
+text-align:right;
+
+}
+
+.save{
+
+background:green;
+
+color:white;
+
+}
+
+.cancel{
+
+background:gray;
+
+color:white;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Hassani To Do List</h2>
+
+<div class="top">
+
+<input
+type="text"
+id="taskInput"
+placeholder="Enter new task">
+
+<button id="addTask">
+
+Add Task
+
+</button>
+
+</div>
+
+<ul id="list"></ul>
+
+</div>
+
+
+<!-- Edit Dialog -->
+
+<div id="editBox">
+
+<div class="dialog">
+
+<h3>Edit Task</h3>
+
+<input
+type="text"
+id="editInput">
+
+<div class="actions">
+
+<button class="save">
+
+Save
+
+</button>
+
+<button class="cancel">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const addButton=document.getElementById("addTask");
+
+const input=document.getElementById("taskInput");
+
+const list=document.getElementById("list");
+
+const editBox=document.getElementById("editBox");
+
+const editInput=document.getElementById("editInput");
+
+const saveButton=document.querySelector(".save");
+
+const cancelButton=document.querySelector(".cancel");
+
+let selectedTask=null;
+
+
+/* add new task */
+
+addButton.addEventListener("click",addTask);
+
+function addTask(){
+
+let text=input.value.trim();
+
+if(text.length==0){
+
+alert("Please enter a task.");
+
+return;
+
+}
+
+const item=document.createElement("li");
+
+const check=document.createElement("input");
+
+check.type="checkbox";
+
+check.className="check";
+
+const title=document.createElement("span");
+
+title.className="taskText";
+
+title.textContent=text;
+
+const edit=document.createElement("button");
+
+edit.className="edit";
+
+edit.textContent="Edit";
+
+const remove=document.createElement("button");
+
+remove.className="remove";
+
+remove.textContent="Remove";
+
+item.append(check);
+
+item.append(title);
+
+item.append(edit);
+
+item.append(remove);
+
+list.append(item);
+
+input.value="";
+
+}
+
+
+/* Event Delegation */
+
+list.addEventListener("click",function(e){
+
+const row=e.target.closest("li");
+
+if(!row) return;
+
+if(e.target.classList.contains("remove")){
+
+row.remove();
+
+}
+
+else if(e.target.classList.contains("edit")){
+
+selectedTask=row.querySelector(".taskText");
+
+editInput.value=selectedTask.textContent;
+
+editBox.style.display="block";
+
+}
+
+else if(e.target.classList.contains("check")){
+
+const text=row.querySelector(".taskText");
+
+text.classList.toggle("done");
+
+}
+
+});
+
+
+saveButton.addEventListener("click",function(){
+
+let newText=editInput.value.trim();
+
+if(newText!=""){
+
+selectedTask.textContent=newText;
+
+}
+
+editBox.style.display="none";
+
+});
+
+
+cancelButton.addEventListener("click",function(){
+
+editBox.style.display="none";
+
+});
+
+
+</script>
+
+</body>
+
+</html>
