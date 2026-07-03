@@ -1,7 +1,7 @@
 # To-Do List Application
 
-## Student Information
-**Course:** Web Programming  
+## Meiqdad Hassani
+**Course:** Web Programming  1
 **Assignment:** Event Handling and Event Delegation  
 **Project:** To-Do List Application
 
@@ -102,4 +102,4 @@ MDN Web Docs. (2023). *Document Object Model (DOM).* https://developer.mozilla.o
 Shute, Z. (2019). *Advanced JavaScript: Speed up Web Development with the Powerful Features and Benefits of JavaScript*. Packt Publishing.
 
 ---
-**Author:** Student Project
+**Author:** Meiqdad Hassani
